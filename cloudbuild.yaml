@@ -1,9 +1,11 @@
 steps:
+  # copy key file
 - name: gcr.io/cloud-builders/gsutil
   args: ['cp', 'gs://cloudrun-demo-50614.appspot.com/key.json', 'key.json']
-  # build & push the container image
+  # build the container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/${PROJECT_ID}/${REPO_NAME}:latest', '.']
+  args: ['build', '-t', 'gcr.io/${PROJECT_ID}/${REPO_NAME}:latest', '--cache-from', 'gcr.io/$PROJECT_ID/${REPO_NAME}:latest', '.']
+  # push the container image
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/${REPO_NAME}:latest']
   # Deploy container image to Cloud Run
