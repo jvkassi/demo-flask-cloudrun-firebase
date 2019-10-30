@@ -3,6 +3,8 @@ steps:
   args: ['cp', 'gs://cloudrun-demo-50614.appspot.com/key.json', 'key.json']
   # build & push the container image
 - name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '--build-arg', '-t', 'gcr.io/${PROJECT_ID}/${REPO_NAME}:latest', '.']
+- name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/${REPO_NAME}:latest']
   # Deploy container image to Cloud Run
 - name: "gcr.io/cloud-builders/gcloud"
